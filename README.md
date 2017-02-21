@@ -1,4 +1,4 @@
-# fyl
+# fyl :paperclip:
 Bare-bone(and aspiring) file uploader - Not a competition to XHR file uploaders, out there in the wild :)
 
 ### Usage
@@ -15,7 +15,6 @@ fyl({
     url: '/fylupload', // Upload URL
     fileName: 'flywithfyl', // Filename
     fileNameNoIndexOnOne: true, // 
-    trigger: 'change', // AJAX upload trigger
     /**
     * Callbacks ...
     * */
