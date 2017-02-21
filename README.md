@@ -2,7 +2,7 @@
 Bare-bone(and aspiring) file uploader - Not a competition to XHR file uploaders, out there in the wild :)
 
 ### Usage
-`
+```javascript
                 fyl({
                     data: {
                         user: 'fyl-user',
@@ -32,7 +32,7 @@ Bare-bone(and aspiring) file uploader - Not a competition to XHR file uploaders,
                     }
                 });
 
-`
+```
 
 
 #### Note
