@@ -8,7 +8,9 @@ import upload from './utils/upload'
 const _defaults = {
     'uploaderCls': 'fyl-upload',
     'previewCls': 'fyl-preview',
+    'previewImage': false,
     'allowsOnly': [],
+    'trigger': 'change', // Not exposed to public API
     cbDone: (res) => {
         console.log('Fyl got this as response ->', res);
     },
@@ -30,6 +32,12 @@ const fyl = (options) => {
    var preview = document.querySelector('.' + _options.previewCls);
    // Iterate over all elements
    document.querySelectorAll('.' + _options.uploaderCls).forEach(($elm) => {
+       let $parentElm   = $elm.parentElement;
+
+       let $fylFauxElm  = $parentElm.querySelector('.fyl-faux-upload');
+       let $fylStats    = $parentElm.querySelector('.fyl-status');
+       let $fylPreview  = $parentElm.querySelector('.fyl-preview');
+
        // File restriction
        restrictByType(_options.allowsOnly, $elm);
        //
@@ -37,12 +45,18 @@ const fyl = (options) => {
             if(e.target.files.length){
                 let _files = e.target.files;
                 let _data = { fields: options.data || {}, files: {}};
-                preview.innerHTML = '';
+
+                $fylPreview.innerHTML = '';
                 for(let i = 0; i < _files.length; i++ ){
                     // Generate previews (if applicable)
-                    genPreview(_files[i], preview);
+                    if(_options.previewImage) genPreview(_files[i], $fylPreview);
                     // Prepare selected file for upload
                     _data.files[iFileName( _options.fileName || $elm.name || $elm.id, i )] = _files[i];
+                }
+
+                //
+                if($fylStats){
+                    $fylStats.innerHTML = genSummary(_files);
                 }
 
                 // Clean-up index agianst custom filename if just one file is uploaded
@@ -60,10 +74,22 @@ const fyl = (options) => {
                         files: _data.files,
                         progress: _options.cbProgress
                     }).then(_options.cbDone, _options.cbErr);
+
+                    // 
                     e.target.value = '';
                 }
             }
        });
+
+       // If faux elements available, use them instead...
+       if($fylFauxElm){
+           $elm.style.display = 'none';
+           $fylFauxElm.addEventListener('click', (e) => {
+                e.preventDefault();
+                $elm.click();
+                return false;
+           }, false)
+       }
    });
 }
 
@@ -98,6 +124,8 @@ const genPreview = (file, preview) => {
     }
 }
 
-const iFileName = (fileName, i ) => fileName + (i !== undefined ? '_' + i : '')
+const genSummary = (files) => files.length ? (files.length <= 5 ? files.length : '5+') + ' selected' : '' ;
+
+const iFileName = (fileName, i ) => fileName + (i !== undefined ? '_' + i : '') ;
 
 module.exports = fyl;

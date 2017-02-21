@@ -101,7 +101,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var _defaults = {
     'uploaderCls': 'fyl-upload',
     'previewCls': 'fyl-preview',
+    'previewImage': false,
     'allowsOnly': [],
+    'trigger': 'change', // Not exposed to public API
     cbDone: function cbDone(res) {
         console.log('Fyl got this as response ->', res);
     },
@@ -123,6 +125,13 @@ var fyl = function fyl(options) {
     var preview = document.querySelector('.' + _options.previewCls);
     // Iterate over all elements
     document.querySelectorAll('.' + _options.uploaderCls).forEach(function ($elm) {
+        var $parentElm = $elm.parentElement;
+
+        var $fylFauxElm = $parentElm.querySelector('.fyl-faux-upload');
+        var $fylStats = $parentElm.querySelector('.fyl-status');
+        var $fylPreview = $parentElm.querySelector('.fyl-preview');
+
+        console.log($fylFauxElm, $fylStats, $fylPreview);
         // File restriction
         restrictByType(_options.allowsOnly, $elm);
         //
@@ -130,12 +139,18 @@ var fyl = function fyl(options) {
             if (e.target.files.length) {
                 var _files = e.target.files;
                 var _data = { fields: options.data || {}, files: {} };
-                preview.innerHTML = '';
+
+                $fylPreview.innerHTML = '';
                 for (var i = 0; i < _files.length; i++) {
                     // Generate previews (if applicable)
-                    genPreview(_files[i], preview);
+                    if (_options.previewImage) genPreview(_files[i], $fylPreview);
                     // Prepare selected file for upload
                     _data.files[iFileName(_options.fileName || $elm.name || $elm.id, i)] = _files[i];
+                }
+
+                //
+                if ($fylStats) {
+                    $fylStats.innerHTML = genSummary(_files);
                 }
 
                 // Clean-up index agianst custom filename if just one file is uploaded
@@ -153,10 +168,22 @@ var fyl = function fyl(options) {
                         files: _data.files,
                         progress: _options.cbProgress
                     }).then(_options.cbDone, _options.cbErr);
+
+                    // 
                     e.target.value = '';
                 }
             }
         });
+
+        // If faux elements available, use them instead...
+        if ($fylFauxElm) {
+            $elm.style.display = 'none';
+            $fylFauxElm.addEventListener('click', function (e) {
+                e.preventDefault();
+                $elm.click();
+                return false;
+            }, false);
+        }
     });
 };
 
@@ -193,6 +220,10 @@ var genPreview = function genPreview(file, preview) {
         preview.appendChild(img);
         loadImg(img, file);
     }
+};
+
+var genSummary = function genSummary(files) {
+    return files.length ? (files.length <= 5 ? files.length : '5+') + ' selected' : '';
 };
 
 var iFileName = function iFileName(fileName, i) {
