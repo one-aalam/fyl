@@ -1,5 +1,8 @@
 # fyl :paperclip:
-Bare-bone(and aspiring) file uploader - Not a competition to XHR file uploaders, out there in the wild :)
+Bare-bones(and aspiring) file uploader - Not a competition to XHR file uploaders, out there in the wild :)
+
+> [example](/examples/browser/index.html)
+![fyl_preview](/res/fyl_preview.gif)
 
 ### Usage
 ```javascript
@@ -33,6 +36,7 @@ fyl({
 });
 
 ```
+Clone repository and open `index.html` in browser.
 
 
 #### Note
