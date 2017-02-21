@@ -10,15 +10,21 @@
                     <h1>fyl({})</h1>
                 </heading>
                 <!-- Fyl surface area -->
+                <!-- contains almost everything fyl's going to need and enhance -->
                 <div class="fyl-surface">
-                    <input type="file" class="fyl-upload" name="flywithfylfieldname" name="flywithfylfieldid" multiple>
+                    <!-- File input (always needed) -->
+                    <input type="file" class="fyl-upload" name="flywithfylfieldname" id="flywithfylfieldid" multiple>
+                    <!-- selection summary (optional) -->
                     <span class="fyl-status"></span>
-                    <ul class="fyl-preview"><!-- image previews(if enabled)--></ul>
+                    <!-- image previews (optional) (if enabled) -->
+                    <ul class="fyl-preview">
                 </div>
 
                 <div class="fyl-surface">
-                    <input type="file" class="fyl-upload" name="flywithfylfieldname" name="flywithfylfieldid" multiple>
+                    <input type="file" class="fyl-upload" name="flywithfylfieldname" id="flywithfylfieldid" multiple>
+                    <!-- Hides File input if available -->
                     <a href="" class="fyl-faux-upload">&#x25B2; &nbsp;<span class="fyl-status">Choose file...</span></a>
+                    
                     <ul class="fyl-preview"><!-- image previews(if enabled)--></ul>
                 </div>
             </div>

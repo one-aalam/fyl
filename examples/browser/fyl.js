@@ -130,8 +130,6 @@ var fyl = function fyl(options) {
         var $fylFauxElm = $parentElm.querySelector('.fyl-faux-upload');
         var $fylStats = $parentElm.querySelector('.fyl-status');
         var $fylPreview = $parentElm.querySelector('.fyl-preview');
-
-        console.log($fylFauxElm, $fylStats, $fylPreview);
         // File restriction
         restrictByType(_options.allowsOnly, $elm);
         //
@@ -140,10 +138,12 @@ var fyl = function fyl(options) {
                 var _files = e.target.files;
                 var _data = { fields: options.data || {}, files: {} };
 
-                $fylPreview.innerHTML = '';
+                if ($fylPreview) $fylPreview.innerHTML = '';
                 for (var i = 0; i < _files.length; i++) {
                     // Generate previews (if applicable)
-                    if (_options.previewImage) genPreview(_files[i], $fylPreview);
+                    if (_options.previewImage && $fylPreview) {
+                        genPreview(_files[i], $fylPreview);
+                    }
                     // Prepare selected file for upload
                     _data.files[iFileName(_options.fileName || $elm.name || $elm.id, i)] = _files[i];
                 }
