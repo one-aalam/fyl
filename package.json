@@ -1,0 +1,33 @@
+{
+  "name": "fyl",
+  "version": "1.0.0",
+  "description": "A very inconfident file uploader",
+  "main": "dist/fyl.js",
+  "module": "src/index.js",
+  "scripts": {
+    "dev": "webpack --env=dev --progress --profile --colors --watch",
+    "build": "webpack --env=build",
+    "build:min": "webpack -p",
+    "update:browser-build": "npm run build && cp dist/fyl.js examples/browser/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/one-aalam/fyl.git"
+  },
+  "author": "Aftab Alam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/one-aalam/fyl/issues"
+  },
+  "homepage": "https://github.com/one-aalam/fyl#readme",
+  "devDependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-es2015-webpack": "^6.4.3",
+    "eslint": "^3.16.0",
+    "eslint-loader": "^1.6.1",
+    "webpack": "^2.2.1"
+  }
+}
